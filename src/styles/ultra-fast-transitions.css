@@ -1,0 +1,99 @@
+/* Ultra-Fast Page Transition Effects - Zero Lag Version */
+
+/* Base styles for page transitions - absolute minimum animation */
+.page-enter {
+  opacity: 0;
+  transform: translateX(3px); /* Even smaller movement */
+  position: absolute;
+  width: 100%;
+  will-change: opacity, transform;
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 80ms, transform 80ms; /* Ultra-fast transition */
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1); /* Quick acceleration */
+}
+
+.page-exit {
+  opacity: 1;
+  position: absolute;
+  width: 100%;
+  will-change: opacity;
+}
+
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 60ms; /* Super fast exit */
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Maximum hardware acceleration */
+.page-enter, 
+.page-enter-active, 
+.page-exit, 
+.page-exit-active {
+  backface-visibility: hidden;
+  transform-style: flat;
+  perspective: 1000;
+  -webkit-transform-style: flat;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -webkit-font-smoothing: antialiased;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+/* Preload pages */
+.preload-container {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* Navigation indicator - static version */
+.nav-indicator {
+  box-shadow: 0 0 4px rgba(0, 240, 255, 0.4);
+}
+
+/* Optimize animations with will-change for better performance */
+.MuiBottomNavigationAction-root {
+  will-change: transform, opacity;
+  transition: transform 0.08s ease-out, opacity 0.08s ease-out !important; /* Faster */
+}
+
+.MuiBottomNavigationAction-root.Mui-selected {
+  transform: translateY(-1px); /* Minimal movement */
+}
+
+/* Optimize drawer transitions */
+.MuiDrawer-paper {
+  will-change: transform;
+}
+
+/* Optimize icon button transitions */
+.MuiIconButton-root {
+  will-change: transform, background-color;
+  transition: transform 0.1s ease-out, background-color 0.1s ease-out !important; /* Faster */
+}
+
+.MuiIconButton-root:active {
+  transform: scale(0.98); /* Even less scaling */
+}
+
+/* Instant page transitions when navigating back/forward */
+.instant-transition {
+  transition: none !important;
+}
+
+/* Disable all animations when prefers-reduced-motion is enabled */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+} 

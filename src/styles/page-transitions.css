@@ -1,0 +1,106 @@
+/* Page Transition Effects - Ultra Performance Version */
+
+/* Base styles for page transitions - minimalist for speed */
+.page-enter {
+  opacity: 0;
+  transform: translateX(5px); /* Reduced movement for speed */
+  position: absolute;
+  width: 100%;
+  will-change: opacity, transform;
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 120ms, transform 120ms; /* Reduced times */
+  transition-timing-function: cubic-bezier(0.1, 0.7, 0.1, 1); /* Optimized easing */
+}
+
+.page-exit {
+  opacity: 1;
+  position: absolute;
+  width: 100%;
+  will-change: opacity;
+}
+
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 100ms; /* Even faster exit */
+  transition-timing-function: cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+/* Hardware acceleration for smoother animations */
+.page-enter, 
+.page-enter-active, 
+.page-exit, 
+.page-exit-active {
+  backface-visibility: hidden;
+  transform-style: flat; /* Changed from preserve-3d for better performance */
+  perspective: 1000px;
+  -webkit-transform-style: flat;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Preload pages */
+.preload-container {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* Navigation indicator - simplified animation */
+.nav-indicator {
+  box-shadow: 0 0 5px rgba(0, 240, 255, 0.4);
+}
+
+/* Optimize animations with will-change for better performance */
+.MuiBottomNavigationAction-root {
+  will-change: transform, opacity;
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out !important; /* Faster */
+}
+
+.MuiBottomNavigationAction-root.Mui-selected {
+  transform: translateY(-2px); /* Reduced movement */
+}
+
+/* Optimize drawer transitions */
+.MuiDrawer-paper {
+  will-change: transform;
+}
+
+/* Optimize icon button transitions */
+.MuiIconButton-root {
+  will-change: transform, background-color;
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out !important; /* Faster */
+}
+
+.MuiIconButton-root:active {
+  transform: scale(0.97); /* Less scaling */
+}
+
+/* Disable animations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    opacity: 0;
+    transform: none;
+  }
+  
+  .page-enter-active {
+    opacity: 1;
+    transform: none;
+    transition: opacity 50ms;
+  }
+  
+  .page-exit {
+    opacity: 1;
+  }
+  
+  .page-exit-active {
+    opacity: 0;
+    transition: opacity 50ms;
+  }
+} 

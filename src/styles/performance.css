@@ -1,0 +1,285 @@
+/* Safe Performance Optimizations for React UI */
+
+/* Hardware acceleration for important elements - limit to fewer elements */
+.hardware-accelerated,
+.glass-panel,
+.gradient-border-container,
+.data-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Minimize "will-change" usage as it can cause performance issues when overused */
+.chart-container {
+  will-change: transform;
+}
+
+/* Optimize transitions - use faster transitions */
+.transition-fast {
+  transition: all 0.1s ease-out;
+}
+
+.transition-standard {
+  transition: all 0.15s ease-out;
+}
+
+/* Theme transitions - smooth transition between light and dark mode */
+body, html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light theme specific styles */
+.light-theme {
+  --bg-color: #FFFFFF;
+  --text-color: #000000;
+  --text-secondary: #334155;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --accent-color: #0284C7;
+  
+  /* Override dark backgrounds for light mode */
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+/* Dark theme specific styles */
+.dark-theme {
+  --bg-color: #030711;
+  --text-color: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(7, 13, 26, 0.7);
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --accent-color: #00F0FF;
+  
+  /* Set dark theme background */
+  background-color: #030711;
+  color: #F8FAFC;
+}
+
+/* Apply theme variables to document and body */
+html {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+body {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* Navigation indicator */
+.nav-indicator {
+  box-shadow: 0 0 4px var(--accent-color, rgba(0, 240, 255, 0.4));
+}
+
+/* Navigation animation - minimize movement */
+.MuiBottomNavigationAction-root.Mui-selected {
+  transform: translateY(0); /* Remove the subtle movement */
+}
+
+/* Material UI components - remove transitions for navigation-related elements */
+.MuiButtonBase-root,
+.MuiListItem-root,
+.MuiBottomNavigationAction-root,
+.MuiIconButton-root {
+  /* Remove transitions */
+  transition: none;
+}
+
+/* Button and control elements with theme variables */
+button,
+.MuiButton-root,
+.MuiIconButton-root {
+  color: var(--accent-color);
+  border-color: var(--border-color);
+}
+
+/* Text colors with theme variables */
+h1, h2, h3, h4, h5, h6, p, span {
+  color: var(--text-color);
+}
+
+/* Apply theme colors to various Material UI components */
+.MuiListItemText-primary {
+  color: var(--text-color) !important;
+}
+
+.MuiListItemText-secondary {
+  color: var(--text-secondary) !important;
+}
+
+/* Neon shadows */
+.shadow-neon {
+  box-shadow: 0 0 10px var(--accent-color, rgba(0, 240, 255, 0.3));
+}
+
+/* Glass effect backgrounds with theme variables */
+.bg-glass-dark {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+.backdrop-blur-glass {
+  backdrop-filter: blur(10px);
+}
+
+/* Gradient effects - different for light and dark modes */
+.light-theme .bg-gradient-blueprint {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+}
+
+.dark-theme .bg-gradient-blueprint {
+  background-image: linear-gradient(rgba(0, 0, 30, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 30, 0.1) 1px, transparent 1px);
+}
+
+/* Black backgrounds in light mode */
+.light-theme .bg-black {
+  background-color: #FFFFFF !important;
+}
+
+.light-theme .bg-black\/30,
+.light-theme .bg-black\/40,
+.light-theme .bg-black\/50,
+.light-theme .bg-black\/80 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Border colors for light mode */
+.light-theme .border-white\/10,
+.light-theme .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Text colors */
+.text-neon-blue {
+  color: var(--accent-color);
+}
+
+.light-theme .text-white,
+.light-theme .text-gray-100 {
+  color: #000000 !important;
+}
+
+.light-theme .text-gray-400 {
+  color: #64748B !important;
+}
+
+.text-neon-green {
+  color: var(--theme-mode, #00ff90);
+}
+
+.text-neon-purple {
+  color: var(--theme-mode, #bf00ff);
+}
+
+.text-neon-pink {
+  color: var(--theme-mode, #ff00c8);
+}
+
+.text-cosmic-400 {
+  color: var(--theme-mode, #6b6be5);
+}
+
+/* Disable animations during resize to prevent layout thrashing */
+.resize-animation-stopper * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Reduced motion mode for users who prefer reduced motion */
+.reduced-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Optimize rendering performance */
+* {
+  text-rendering: optimizeSpeed;
+}
+
+/* Use instant transitions for all navigation */
+.page-enter,
+.page-exit,
+.page-enter-active,
+.page-exit-active {
+  transition: none !important;
+}
+
+/* Instant page transitions when navigating back/forward */
+.instant-transition {
+  transition: none !important;
+}
+
+/* Apply no-animation class to body when navigating */
+.navigating {
+  pointer-events: none; /* Prevent interaction during navigation */
+}
+
+/* Font display optimization for web fonts */
+@font-face {
+  font-display: swap; /* Ensures text remains visible during webfont load */
+}
+
+/* Add glass panel classes for both light and dark themes */
+.glass-panel-dark {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.glass-panel-dark:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(100, 255, 255, 0.1);
+  border: 1px solid rgba(100, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.glass-panel-light:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 100, 255, 0.1);
+  border: 1px solid rgba(0, 100, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Update existing .glass-panel class to adapt based on theme */
+.glass-panel {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.light-theme .glass-panel {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.glass-panel:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(100, 255, 255, 0.1);
+  border: 1px solid rgba(100, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.light-theme .glass-panel:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 100, 255, 0.1);
+  border: 1px solid rgba(0, 100, 255, 0.2);
+} 

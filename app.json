@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "iot-mobile",
+    "slug": "iot-mobile",
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    }
+  }
+} 
